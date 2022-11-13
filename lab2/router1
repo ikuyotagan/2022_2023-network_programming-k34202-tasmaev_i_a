@@ -1,0 +1,51 @@
+nov/13/2022 22:03:11 by RouterOS 7.5
+# software id = 
+#
+/interface bridge
+add disabled=yes name=loopback
+/interface ethernet
+set [ find default-name=ether1 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full,10000M-full,2500M-full,5000M-full disable-running-check=no
+/interface wireguard
+add listen-port=63665 mtu=1420 name=wireguard1
+/interface lte apn
+set [ find default=yes ] ip-type=ipv4 use-network-apn=no
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/port
+set 0 name=serial0
+set 1 name=serial1
+set 2 name=serial2
+set 3 name=serial3
+/routing ospf instance
+add disabled=no name=ospf-instance-1 router-id=11.11.11.11
+/routing ospf area
+add disabled=no instance=ospf-instance-1 name=Backbone
+/user group
+set full policy=local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,password,web,sniff,sensitive,api,romon,dude,rest-api
+/interface bridge filter
+# in/out-bridge-port matcher not possible when interface (ether1) is not slave
+add action=accept chain=input in-interface=ether1 packet-type=multicast
+/ip neighbor discovery-settings
+set discover-interface-list=all lldp-med-net-policy-vlan=1
+/ip settings
+set max-neighbor-entries=8192
+/ipv6 settings
+set max-neighbor-entries=8192
+/interface ovpn-server server
+set auth=sha1,md5
+/interface wireguard peers
+add allowed-address=0.0.0.0/0,::/0,10.66.66.1/32 endpoint-address=51.250.103.248 endpoint-port=63665 interface=wireguard1 persistent-keepalive=25s public-key="+xokQjKM8wXNvflurwqHWQvbD56caH1kMLABBuQws3M="
+/ip address
+add address=10.66.66.3/24 interface=wireguard1 network=10.66.66.0
+/ip dhcp-client
+add !dhcp-options interface=ether1
+/ip firewall service-port
+set rtsp disabled=no
+/ip service
+set www-ssl disabled=no
+/routing ospf interface-template
+add area=Backbone disabled=no networks=192.168.0.0/24
+/system ntp client
+set enabled=yes
+/system ntp client servers
+add address=0.ru.pool.ntp.org
