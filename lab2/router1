@@ -1,8 +1,6 @@
 nov/13/2022 22:03:11 by RouterOS 7.5
 # software id = 
 #
-/interface bridge
-add disabled=yes name=loopback
 /interface ethernet
 set [ find default-name=ether1 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full,10000M-full,2500M-full,5000M-full disable-running-check=no
 /interface wireguard
