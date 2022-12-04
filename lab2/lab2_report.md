@@ -48,7 +48,7 @@ Date of finished:
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/63468028/201545737-8591446f-7f9e-4567-9c2d-5b73e9b65ccb.png">
 <img width="575" alt="image" src="https://user-images.githubusercontent.com/63468028/201545763-f82bcdc1-f010-4071-aa3a-239a6f7ff3dc.png">
 
-![Диаграмма без названия drawio](https://user-images.githubusercontent.com/63468028/201546331-75ef79fa-f7b5-4851-9852-c5077a0c57a4.svg)
+![Диаграмма drawio](https://user-images.githubusercontent.com/63468028/201546331-75ef79fa-f7b5-4851-9852-c5077a0c57a4.svg)
 
 Вывод:
 В ходе выполнения лабораторной работы был создан еще один CHR. После чего удаленно были проведена настройка CHR с помощью Ansible, установленного на удаленной ВМ, находящейся в Yandex Cloud.

@@ -1,0 +1,29 @@
+- name: Set Router Name and add IP-address from Netbox
+  hosts:
+    - mikrotik-1
+    - mikrotik-2
+  connection: network_cli
+  gather_facts: no
+  tasks:
+
+    - name: Getting devices data from Netbox
+      set_fact: device="{{ query('netbox.netbox.nb_lookup', 'ip-addresses', api_endpoint='http://10.66.66.5/', api_filter='device=' ~ hostvars[inventory_hostname].group_names[0], token='4bdd2ebafc4c09298607a20a6c736e8fd4cac563') }}"
+      register: system_print
+
+    - name: Set Ip and Name data
+      set_fact:
+        router_name: "{{ device[0].value.assigned_object.device.name }}"
+        router_ip: "{{ device[0].value.address }}"
+
+    - name: Change CHR's name and adding Ip
+      routeros_command:
+        commands:
+          - /ip address print
+          - /ip address add address={{ router_ip }} interface=wireguard1
+          - /ip address print
+          - /system identity set name={{ router_name }}
+          - /system identity print
+      register: system_print
+
+    - name: Debug print
+      debug: var=system_print.stdout_lines

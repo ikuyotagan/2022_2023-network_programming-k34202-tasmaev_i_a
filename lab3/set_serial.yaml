@@ -1,0 +1,21 @@
+- name: Collecting Routers INFO
+  hosts:
+    - mikrotik-1
+    - mikrotik-2
+  connection: network_cli
+  gather_facts: no
+  tasks:
+    - name: Collecting Info
+      routeros_command:
+        commands:
+          - /system license print
+      register: system_print
+    - name: set
+      set_fact: id="{{ system_print.stdout_lines[0][0] | regex_replace('system-id:\s', '') }}"
+    - name: debug print
+      netbox_device:
+        netbox_url: 'http://10.66.66.5/'
+        netbox_token: '4bdd2ebafc4c09298607a20a6c736e8fd4cac563'
+        data:
+          name: "{{hostvars[inventory_hostname].group_names[0]}}"
+          serial: "{{id}}"
