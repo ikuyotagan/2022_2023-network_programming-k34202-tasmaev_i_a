@@ -10,7 +10,7 @@ Group: K34202
 
 Author: Tasmaev Igor Tasmaev
 
-Lab: Lab2
+Lab: Lab3
 
 Date of create: 04.12.2022
 
